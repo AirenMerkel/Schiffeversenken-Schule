@@ -5,12 +5,11 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import networkComunication.DirectCommunication;
-
 public class ReciveBroadcast implements Runnable {
 
 	private ArrayList<String> IPAdress = new ArrayList<>();
 	private DatagramSocket datagramSocket;
+	//private boolean notConected = true;
 	
 	public ReciveBroadcast(DatagramSocket datagramSocket) {
 		this.datagramSocket = datagramSocket;
@@ -20,27 +19,28 @@ public class ReciveBroadcast implements Runnable {
 	public void run() {
 		boolean notConected = true;
 		while(notConected) {
-			notConected = !Broadcast.isConected();
 			
 			DatagramPacket datagramPacket = new DatagramPacket(new byte[512], 512);
 			try {
-				
 				this.datagramSocket.receive(datagramPacket);
 				String ownAdress = InetAddress.getLocalHost().getHostAddress();
 				
 				if(!datagramPacket.getAddress().toString().contains(ownAdress) && !Broadcast.isConected()) {
 					readRecive(datagramPacket);
 				}
-				//Thread.sleep(5000);
 			} catch (Exception e) {
 				System.out.println(e);
 				// Do Nothing wait for income request
 			}
+			notConected = !Broadcast.isConected();
 			
 
 		}
-		
+
 		System.out.println("ENDE");
+
+		networkComunication.DirectCommunication.start();
+		
 		
 	}
 	
@@ -77,12 +77,10 @@ public class ReciveBroadcast implements Runnable {
 		
 		if (message.contains(messages.Messages.acknowledgement) && senderAdressString.contains(conectIP) && !info) {
 			
-			Broadcast.setConected(false);
-			conectionBroadcast.Broadcast.setConected(true);
-			networkComunication.DirectCommunication.start(conectIP);
-			DirectCommunication communicationStart = new DirectCommunication();
-			communicationStart.StartDirectCommunication();
+			Broadcast.setConected(true);
 			System.out.println("aefefsefs<ef333333333333a");
 		}
 	}
+	
+	
 }

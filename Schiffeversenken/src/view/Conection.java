@@ -51,7 +51,7 @@ public class Conection {
 		btnStartGame.setBounds(472, 429, 102, 23);		
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				conectionBroadcast.Conect.refresh();
+				//conectionBroadcast.Conect.refresh();
 			}
 		});
 		frameConection.getContentPane().add(btnStartGame);
@@ -62,7 +62,7 @@ public class Conection {
 		btnReload.setBounds(337, 429, 89, 23);
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				conectionBroadcast.Conect.refresh();
+				//conectionBroadcast.Conect.refresh();
 			}
 		});
 		frameConection.getContentPane().add(btnReload);

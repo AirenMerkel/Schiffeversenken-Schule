@@ -11,6 +11,7 @@ public class IncomeConection extends Thread {
 	private JTextField ipAdressText;
 	public static boolean SVFound; // if SVFound(true) or SVSearch(False)
 	public static String ipAdress;
+	private JTextField svRequestText;
 	
 	/**
 	 * Launch the application.
@@ -56,13 +57,24 @@ public class IncomeConection extends Thread {
 		ipAdressText.setColumns(10);
 		
 		JButton btnAccept = new JButton("Akzeptieren");
-		btnAccept.setBounds(24, 95, 366, 46);
+		btnAccept.setBounds(24, 126, 366, 46);
 		listner.ListenerIncomeConection.accept(btnAccept, frame, ipAdress, SVFound);
 		frame.getContentPane().add(btnAccept);
 		
 		JButton btnDeny = new JButton("Ablehnen");
-		btnDeny.setBounds(24, 152, 366, 46);
+		btnDeny.setBounds(24, 183, 366, 46);
 		listner.ListenerIncomeConection.deny(btnDeny, frame);
 		frame.getContentPane().add(btnDeny);
+		
+		svRequestText = new JTextField();
+		if(SVFound) {
+			svRequestText.setText("Suchanfrage");
+		}else{
+			svRequestText.setText("Bestätigung");
+		}
+		svRequestText.setEditable(false);
+		svRequestText.setColumns(10);
+		svRequestText.setBounds(24, 95, 366, 20);
+		frame.getContentPane().add(svRequestText);
 	}
 }

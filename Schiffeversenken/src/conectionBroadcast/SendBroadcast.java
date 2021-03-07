@@ -37,27 +37,30 @@ public class SendBroadcast implements Runnable {
 		while(!Broadcast.isConected()) {
 			// Has no active connection?
 			// Send every 5 Seconds a welcome broadcast 0000 
-
-			if (!this.hasConnection) {
-				System.out.println("Sender:		"+ Broadcast.getMessage());
-				this.sendWelcome();
-				
-			}
 			try {
-				Thread.sleep(5000);//Wait 5000 ms = 5 sek
+				Thread.sleep(2000);//Wait 5000 ms = 5 sek
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
+			if (!this.hasConnection) {
+				System.out.println("Sender:		"+ Broadcast.getMessage());
+				this.sendWelcome();
+				
+			}
+			
 		}
+
 		System.out.println("Beendet");
+		
 
 	}
 
 	public void sendWelcome() {
 
 		byte[] hostBytes = Broadcast.getMessageBytes();
+		String hostString = Broadcast.getMessage();
 		InetAddress inetAddress;
 		try {
 			inetAddress = InetAddress.getByName("255.255.255.255");
@@ -66,14 +69,17 @@ public class SendBroadcast implements Runnable {
 			socket.setBroadcast(true);
 			socket.send(packet);
 			socket.close();
-			if(hostBytes != messages.Messages.host.getBytes()) {
-				if(hostBytes == messages.Messages.acknowledgement.getBytes()) {
+			
+			if(!hostString.contains(messages.Messages.host)) {
+				System.out.println("1:"+hostString);
+				if(hostString.contains(messages.Messages.acknowledgement)) {
+					System.out.println("2:"+hostString);
 					Broadcast.setConected(true);
-					networkComunication.DirectCommunication.start(Broadcast.getConectIP());
-					DirectCommunication communicationStart = new DirectCommunication();
-					communicationStart.StartDirectCommunication();
-				}else if(hostBytes == messages.Messages.found.getBytes()) {
-					Broadcast.setConected(true);
+										
+				}else if(hostString.contains(messages.Messages.found)) {
+					System.out.println("3:"+hostString);
+					setHasConnection(true);
+					
 				}
 				Broadcast.setMessage(messages.Messages.host);
 				setHasConnection(true);
@@ -115,7 +121,7 @@ public class SendBroadcast implements Runnable {
 	}
 
 	public void setHasConnection(boolean hasConnection) {
-		Broadcast.setConected(hasConnection);
+		//Broadcast.setConected(hasConnection);
 		this.hasConnection = hasConnection;
 	}
 }

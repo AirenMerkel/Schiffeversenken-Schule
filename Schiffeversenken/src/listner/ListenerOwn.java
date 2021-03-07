@@ -393,7 +393,8 @@ public class ListenerOwn {
 					view.Main.setVisible(false, false, false, true);
             		view.BuildOwn.errorHandling.setText("Alle Schiffe Platziert");
             		view.BuildOwn.errorHandling2.setText("Suche Gegner...");
-            		conectionBroadcast.Conect.start();
+            		networkComunication.DirectCommunication.start();
+            		//conectionBroadcast.Conect.start();
 				}else {
             		view.BuildOwn.errorHandling.setText("Nicht alle Schiffe Platziert");
             		view.BuildOwn.errorHandling2.setText("");
