@@ -5,8 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import networkComunication.DirectCommunication;
-
 public class SendBroadcast implements Runnable {
 
 	private boolean hasConnection = false;
@@ -45,7 +43,6 @@ public class SendBroadcast implements Runnable {
 			}
 			
 			if (!this.hasConnection) {
-				System.out.println("Sender:		"+ Broadcast.getMessage());
 				this.sendWelcome();
 				
 			}
@@ -73,16 +70,16 @@ public class SendBroadcast implements Runnable {
 			if(!hostString.contains(messages.Messages.host)) {
 				System.out.println("1:"+hostString);
 				if(hostString.contains(messages.Messages.acknowledgement)) {
-					System.out.println("2:"+hostString);
 					Broadcast.setConected(true);
-										
+					setHasConnection(true);
+					Conect.datagramSocket.close();
+					
 				}else if(hostString.contains(messages.Messages.found)) {
-					System.out.println("3:"+hostString);
 					setHasConnection(true);
 					
 				}
-				Broadcast.setMessage(messages.Messages.host);
-				setHasConnection(true);
+//				Broadcast.setMessage(messages.Messages.host);
+//				setHasConnection(true);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -90,18 +87,6 @@ public class SendBroadcast implements Runnable {
 		}
 	}
 
-	public void sendAnswer(InetAddress inetAddress, String message, int port) {
-		byte[] messageBytes = message.getBytes();
-		try {
-			DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length, inetAddress, port);
-			DatagramSocket socket = new DatagramSocket();
-			socket.send(packet);
-			socket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public static SendBroadcast getCommunicationSender() {
 

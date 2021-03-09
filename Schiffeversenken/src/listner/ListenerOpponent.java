@@ -11,11 +11,23 @@ public class ListenerOpponent {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(coordinates);
-
-				changeColor(button, "hit");
-				networkComunication.Respond.getCoordinates(coordinates);
+				
+//Fire,[x1],[x2]
+				networkComunication.Comunication.setOutgoingMsg(messages.Messages.fire + coordinates);
+				networkComunication.Comunication.setSetMsg(true);
+				lockButtons(true);
+				//changeColor(button, "hit");
+				//networkComunication.Respond.getCoordinates(coordinates);
 			}
 		});
+	}
+	
+	public static void lockButtons(boolean lock) {
+		for(int x = 0; x <= 9; x++) {
+			for(int y = 0; y <= 9; y++) {
+				view.Opponent.buttonXY[y][x].setEnabled(!lock);
+			}
+		}
 	}
 	
 	public static void changeColor(Button button, String action) {

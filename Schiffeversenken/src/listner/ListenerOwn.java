@@ -9,15 +9,7 @@ import java.awt.event.MouseEvent;
 
 public class ListenerOwn {
 	private static int selectShip = -1;
-	private static int[][] map = new int[10][10];
-	
-	public static void clearMap() {
-		for(int x = 0; x <= 9; x++) {
-			for(int y = 0; y <= 9; y++) {
-				map[y][x] = -1;
-			}
-		}
-	}
+
 	
 	public static void changeColor(Button button, String action) {
 		switch (action) {
@@ -380,6 +372,15 @@ public class ListenerOwn {
 	}
 	
 	
+	public static void lockButtons() {
+		for(int x = 0; x <= 9; x++) {
+			for(int y = 0; y <= 9; y++) {
+				view.BuildOwn.buttonXY[y][x].setEnabled(false);
+			}
+		}
+	}
+		
+	
 	public static void seachOpponent(Button button) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -390,11 +391,12 @@ public class ListenerOwn {
 				//TODO delete the next line to check if ships were placed.
 				count = 0;
 				if(count == 0) {
-					view.Main.setVisible(false, false, false, true);
+					view.Main.setVisible(false, false, false, true, false, false);
+					lockButtons();
             		view.BuildOwn.errorHandling.setText("Alle Schiffe Platziert");
             		view.BuildOwn.errorHandling2.setText("Suche Gegner...");
-            		networkComunication.DirectCommunication.start();
-            		//conectionBroadcast.Conect.start();
+            		//networkComunication.DirectCommunication.start();
+            		conectionBroadcast.Conect.start();
 				}else {
             		view.BuildOwn.errorHandling.setText("Nicht alle Schiffe Platziert");
             		view.BuildOwn.errorHandling2.setText("");

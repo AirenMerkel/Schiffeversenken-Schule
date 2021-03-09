@@ -1,26 +1,20 @@
 package networkComunication;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.UnknownHostException;
 import java.util.ArrayList;
 
 import conectionBroadcast.Broadcast;
-import networkClient.InputClient;
-import networkServer.Input;
-import networkServer.Output;
+import listner.ListenerOpponent;
+import networkThread.Input;
+import networkThread.Output;
 
 public class DirectCommunication {
 	
 	private static String host;
-	private static int port = 5631;
+	private static int port = 42069;
 	
 	public static ArrayList <Socket> clients = new ArrayList<>();
 	static int i=0;
@@ -32,7 +26,8 @@ public class DirectCommunication {
 //		System.out.println(conectionBroadcast.Conect.datagramSocket.isClosed());
 //		
 		
-		
+
+		view.Main.setVisible(false, true, true, false, false, false);
 		DirectCommunication communicationStart = new DirectCommunication();
 		if(Broadcast.isInfo()) {
 			communicationStart.startDirectCommunicationClient();
@@ -41,21 +36,21 @@ public class DirectCommunication {
 		}
 	}
 
-	@SuppressWarnings("resource")
 	public void startDirectCommunicationServer() { 
 		// Server Port aufbauen
+				networkComunication.Comunication.setAnswerTime(true);
+				ListenerOpponent.lockButtons(false);
+				
 				ServerSocket server = null;
 				try {
 					
-					server = new ServerSocket(5631);
+					server = new ServerSocket(port);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				System.out.println("Warten auf einen Client am Port " + server.getLocalPort());
-
-				int i = 1;
+				System.out.println("Wait for opponent" + server.getLocalPort());
 
 				while (true) {
 					// auf aktive clients warten
@@ -66,53 +61,49 @@ public class DirectCommunication {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					System.out.println("client verbunden");
+					
 
-					clients.add(client);
-
-					// Thread öffnen
-					InputClient threadWrite = new InputClient(client, i);
-					System.out.println(threadWrite.getId() + ": " + i);
-					threadWrite.start();
-					i++;
-					if(i > 1){
-						System.out.println(i);
+					if(client.getInetAddress().toString().contains(Broadcast.getConectIP())) {
+						System.out.println("client verbunden");
+	
+						clients.add(client);
+	
+						threadStarten(client);
+							
+						
 						break;
-						}
 					}
+				}
 	}
 	
 	
+
 	public void startDirectCommunicationClient() {
-		host = "192.168.10.101"; //Broadcast.getConectIP();
-		System.out.println("SATRT:\t"+host);
-		System.out.println("Start");
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		networkComunication.Comunication.setAnswerTime(false);
+		ListenerOpponent.lockButtons(true);
 		
-		BufferedWriter clientBufferedWriter = null;
-		BufferedReader clientBufferedReader = null;
+		host = Broadcast.getConectIP();
+		System.out.println("SATRT:\t"+host);
+
+
 		Socket clientConnection = null;
 
-		System.out.println("Weiter");
-		System.out.println(host);
 		try {
 			// Verbindung zum server aufbauen
 			clientConnection = new Socket(host, port);
-
+			threadStarten(clientConnection);
 		} catch (UnknownHostException uhe) {
-
-			System.out.println("1");
 			System.out.println(uhe);
 		} catch (IOException ioe) {
-			System.out.println("2");
 			System.out.println(ioe);
 		}
+		
+		/*
+		BufferedWriter clientBufferedWriter = null;
+		BufferedReader clientBufferedReader = null;		
 
+		
+		System.out.println("Weiter");
 		try {
 			// Out / Inputstream aufbauen
 			OutputStream clientOutputStream = clientConnection.getOutputStream();
@@ -131,12 +122,25 @@ public class DirectCommunication {
 		}
 		// Thread zum lesen öffnen
 		
-		Input Input = new Input(clientBufferedReader);
+		InputClient Input = new InputClient(clientBufferedReader);
 		Thread threadRead = new Thread(Input);
 		threadRead.start();
 		
-		Output Output = new Output(clientBufferedWriter);
+		OutputClient Output = new OutputClient(clientBufferedWriter);
 		Thread threadWrite = new Thread(Output);
 		threadWrite.start();
+*/
+	}
+	
+	private void threadStarten(Socket client) {
+		// Thread öffnen
+
+		Input threadRead = new Input(client);
+		threadRead.start();
+		
+		Output threadWrite = new Output(client);
+		threadWrite.start();
+		
+		
 	}
 }

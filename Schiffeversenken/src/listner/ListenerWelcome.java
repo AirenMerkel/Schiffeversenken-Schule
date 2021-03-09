@@ -8,7 +8,7 @@ public class ListenerWelcome {
 	public static void placeShipListener(Button button) {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				view.Main.setVisible(false, false, true, false);
+				view.Main.setVisible(false, false, true, false, false, false);
 			}
 		});
 	}

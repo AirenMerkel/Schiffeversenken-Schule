@@ -56,11 +56,13 @@ public class Opponent {
 		
 		for(int y = 0; y <= 9; y++) {
 			for(int x = 0; x <= 9; x++) {
-				String koordinatenString = coordinates[1][y].toUpperCase() + coordinates[0][x];
-				buttonXY[y][x] = new Button(koordinatenString);
+				String coordinatString = coordinates[1][y].toUpperCase() + coordinates[0][x];
+				buttonXY[y][x] = new Button(coordinatString);
 				buttonXY[y][x].setBounds(40+((x)*30), 40+((y)*30), 30, 30);
 				frameOpponent.getContentPane().add(buttonXY[y][x]);
-				ListenerOpponent.getListner(buttonXY[y][x], koordinatenString);
+				
+				
+				ListenerOpponent.getListner(buttonXY[y][x], ",[" + coordinates[1][y].toUpperCase() + "],[" + coordinates[0][x] + "]");
 			}
 		}
 		

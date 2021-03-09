@@ -8,6 +8,8 @@ public class Main {
 	static Opponent windowOpponent;
 	static BuildOwn windowOwn;
 	static Conection windowConection;
+	static Celebration windowCelebration;
+	static GameOver windowGameOver;
 	/**
 	 * Launch the application.
 	 */
@@ -24,14 +26,20 @@ public class Main {
 					windowOpponent = new Opponent();
 					
 					windowOwn = new BuildOwn();
-					
+
 					windowConection = new Conection();
+					
+					windowCelebration = new Celebration();
+					
+					windowGameOver = new GameOver();
 					
 
 					windowWelcome.frameWelcome.setVisible(true);
 					windowOpponent.frameOpponent.setVisible(false);
 					windowOwn.frameOwn.setVisible(false);
 					windowConection.frameConection.setVisible(false);
+					windowCelebration.celebrationFrame.setVisible(false);
+					windowGameOver.gameOverFrame.setVisible(false);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,11 +48,13 @@ public class Main {
 		});
 		
 	}
-	public static void setVisible(boolean welcome, boolean opponent, boolean own, boolean conection) {
+	public static void setVisible(boolean welcome, boolean opponent, boolean own, boolean conection, boolean celebration, boolean gameOver) {
 		windowWelcome.frameWelcome.setVisible(welcome);
 		windowOpponent.frameOpponent.setVisible(opponent);
-		windowOwn.frameOwn.setVisible(true);
+		windowOwn.frameOwn.setVisible(own);//TODO to own
 		windowConection.frameConection.setVisible(conection);
+		windowCelebration.celebrationFrame.setVisible(celebration);
+		windowGameOver.gameOverFrame.setVisible(gameOver);
 	}
 
 

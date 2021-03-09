@@ -53,8 +53,8 @@ public class ReciveBroadcast implements Runnable {
 		senderAdressString = senderAdressString.replace("/", "");
 		
 		String conectIP = Broadcast.getConectIP();
+		
 		boolean info = Broadcast.isInfo();// if SVFound(true) or SVSearch(False)
-		System.out.println("Reciver:	"+ message);
 		
 		if (message.contains(messages.Messages.host) && !IPAdress.contains(senderAdressString)) {
 			IPAdress.add(senderAdressString);
@@ -76,9 +76,8 @@ public class ReciveBroadcast implements Runnable {
 		}
 		
 		if (message.contains(messages.Messages.acknowledgement) && senderAdressString.contains(conectIP) && !info) {
-			
+			System.out.println("ACK");
 			Broadcast.setConected(true);
-			System.out.println("aefefsefs<ef333333333333a");
 		}
 	}
 	
