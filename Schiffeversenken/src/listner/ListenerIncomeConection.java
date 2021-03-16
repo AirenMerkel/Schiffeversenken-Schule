@@ -11,16 +11,17 @@ public class ListenerIncomeConection {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.setVisible(false);
-			
-				conectionBroadcast.Broadcast.setInfo(SVFound);
-				conectionBroadcast.Broadcast.setConectIP(ip);
 				
-				if(!SVFound) {
-					conectionBroadcast.Broadcast.setMessage(messages.Messages.found);
-				}else {
-					conectionBroadcast.Broadcast.setMessage(messages.Messages.acknowledgement);
+				if(conectionBroadcast.Broadcast.getConectIP() == null || conectionBroadcast.Broadcast.getConectIP() == ip) {
+					conectionBroadcast.Broadcast.setInfo(SVFound);
+					conectionBroadcast.Broadcast.setConectIP(ip);
+					
+					if(!SVFound) {
+						conectionBroadcast.Broadcast.setMessage(messages.Messages.found);
+					}else {
+						conectionBroadcast.Broadcast.setMessage(messages.Messages.acknowledgement);
+					}
 				}
-				
 				
 				//conectionBroadcast.Broadcast.setConected(true);
 				//networkComunication.DirectCommunication.start(ip.replace("/", ""));

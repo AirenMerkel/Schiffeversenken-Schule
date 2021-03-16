@@ -77,43 +77,62 @@ public class Input extends Thread {
 				if(msg.contains(messages.Messages.misshit)) {
 					networkComunication.Comunication.setAnswerTime(true);//activate writer to send msg
 					ListenerOpponent.lockButtons(false);//Activate buttons
-					System.out.println("h1111");
+
+					view.Opponent.infoBox2.setText("Du bist dran");
 					
 				}else if(msg.contains(messages.Messages.lastShip)) {
 					view.Main.setVisible(false, false, false, false, false, true);//show the gameover screen because the last ship is destroyed
-					System.out.println("h1101");
+
 					break;
 				}else {
 					networkComunication.Comunication.setAnswerTime(false);// if there was no misshit listen along to the opponent
 					ListenerOpponent.lockButtons(true);					  //and lock the buttons
-					System.out.println("h1011");
+
 				}
 				
 			}else if(clientRequest.contains(messages.Messages.misshit)){//if the income respond is an misshit 
 				int[] coordinates = new int[2];
 				coordinates = networkComunication.Respond.getCoordinates(clientRequest);// get the coordinates
 				Comunication.colorButton(false, coordinates[0],coordinates[1]); // Paint the button
+				
 				networkComunication.Comunication.setAnswerTime(false);	//Don't respond and wait for more respond
 				ListenerOpponent.lockButtons(true);					//and lock the buttons
-				System.out.println("h1100");
+				
+				view.Opponent.infoBox.setText("Verfehlt");
+				view.Opponent.infoBox2.setText("Der Gegener ist dran");
 				
 			}else if(clientRequest.contains(messages.Messages.lastShip)){//if the last ship of the opponent is destroyed show the celebration screen
+				
 				int[] coordinates = new int[2];
 				coordinates = networkComunication.Respond.getCoordinates(clientRequest);// get the coordinates
 				Comunication.colorButton(true, coordinates[0],coordinates[1]); // Paint the button
-				view.Main.setVisible(false, false, false, false, true, false);
-				System.out.println("h1000");
+				ships.OpponentShips.setPoint(coordinates[0], coordinates[1]);
+				
+			    ships.OpponentShips.colorShipDestroyed(coordinates[0], coordinates[1]);
+			    
+				view.Main.setVisible(false, false, false, false, true, false);// show the celebration screen
 				break;
 				
-			}else if(clientRequest != null && (clientRequest.contains(messages.Messages.hit) || clientRequest.contains(messages.Messages.shipDestroyed))){
+			}else if(clientRequest.contains(messages.Messages.hit) || clientRequest.contains(messages.Messages.shipDestroyed)){
 				int[] coordinates = new int[2];
 				coordinates = networkComunication.Respond.getCoordinates(clientRequest);// get the coordinates
 				Comunication.colorButton(true, coordinates[0],coordinates[1]); // Paint the button
+				ships.OpponentShips.setPoint(coordinates[0], coordinates[1]);
+								
 				networkComunication.Comunication.setAnswerTime(true);
 				ListenerOpponent.lockButtons(false);
-				System.out.println("h0000");
+				if(clientRequest.contains(messages.Messages.hit)) {
+					view.Opponent.infoBox.setText("Schiff getroffen");
+					
+				}else {
+					view.Opponent.infoBox.setText("Schiff zerstört");
+				    ships.OpponentShips.colorShipDestroyed(coordinates[0], coordinates[1]);
+				}
+					
 			}
 		
 		}
+		
+		
 	}
 }

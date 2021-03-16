@@ -7,32 +7,32 @@ public class Respond {
 	
 	
 	public static int destryedShipCounter = 0;
+
 	
 	
 	public static int[] getCoordinates(String msg){
 		String[] target = msg.split(",");
 
 		int[] coordinates = new int[2];
-		char coordinatesY = target[1].charAt(1);
-		char coordinatesX = target[2].charAt(1);
+		char coordinatesX = target[1].charAt(1);// target contains first X then Y (X is letter)
+		char coordinatesY = target[2].charAt(1); 
 
-		coordinates[0] = -1;
-		coordinates[1] = -1;
+		coordinates[0] = -1; //X
+		coordinates[1] = -1; //Y
 		
-		char Y = 'A';
-		char X = '0';
+		char Y = '0';// Variables to compare
+		char X = 'A';
+		char X2 = 'a';
 		
 		
 		for(int i = 0; i <= 9; i++) {
-			if(coordinatesX == X+i) {
+			if(coordinatesX == X+i || coordinatesX == X2+i) {
 				coordinates[0] = i;
 			}
 			if(coordinatesY == Y+i) {
 				coordinates[1] = i;
 			}
 		}
-		
-		//System.out.println(coordinates[0] + "    " + coordinates[1]);
 		
 		return coordinates;
 	}
@@ -69,7 +69,9 @@ public class Respond {
 		}
 		
 		if(respond == messages.Messages.shipDestroyed) {
+			System.out.println("DONE");
 			destryedShipCounter++;
+			
 			if(destryedShipCounter >= 10) {
 				respond = messages.Messages.lastShip;
 				view.BuildOwn.errorHandling.setText("Alle Schiff zerstört");
@@ -85,6 +87,9 @@ public class Respond {
 	}
 	
 	static String shipDestroyed(int x, int y) {
+		System.out.println("shipDestroyed");
+		System.out.println(x);
+		System.out.println(y);
 		String answerDestroyed = messages.Messages.shipDestroyed;
 		String answerNotDestroyed = messages.Messages.hit;
 		for(int auraX = x-1; auraX <= x+1; auraX++) {
@@ -98,8 +103,10 @@ public class Respond {
 //					System.out.println("Main:  AuraX:" + auraX);
 //					System.out.println("Main:  AuraY:" + auraY);
 				} catch (IndexOutOfBoundsException e) {
-					System.out.println(e);
+//					System.out.println(e);
 					// Do Nothing
+					continue;
+					//break;
 				}
 				if(x == auraX && y == auraY) {//The hit point is ignored
 					
@@ -153,7 +160,7 @@ public class Respond {
 //		System.out.println("X:          " +x);
 //		System.out.println("Y:          " +y);
 //		System.out.println("Direction:  " +direction);
-		
+
 		
 		switch (direction) {
 			case 1: 
@@ -188,6 +195,7 @@ public class Respond {
 			}else if(buttonColor == Color.RED) {
 //				System.out.println("RED");
 				String answer = shipDestroyed2(newX, newY, direction);
+				
 				return answer;
 			}else if(buttonColor == Color.PINK) {
 				return messages.Messages.shipDestroyed;
@@ -200,4 +208,9 @@ public class Respond {
 
 		return messages.Messages.shipDestroyed;
 	}
+	
+	
+	
+
+	
 }

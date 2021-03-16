@@ -38,7 +38,6 @@ public class ReciveBroadcast implements Runnable {
 		}
 
 		System.out.println("ENDE");
-
 		networkComunication.DirectCommunication.start();
 		
 		

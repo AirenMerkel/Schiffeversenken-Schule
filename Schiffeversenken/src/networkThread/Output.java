@@ -54,6 +54,7 @@ public class Output extends Thread {
 						clientBufferedWriter.write(msg);
 						clientBufferedWriter.newLine();
 						clientBufferedWriter.flush();
+						System.out.println("Send: " + msg);
 	
 					} catch (SocketException se) {
 						System.out.println("Anfrage Server: " + se);

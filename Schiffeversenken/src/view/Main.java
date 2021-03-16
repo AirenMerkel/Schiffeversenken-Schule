@@ -48,6 +48,8 @@ public class Main {
 		});
 		
 	}
+	
+	//Function to set the frames to visible or hidden
 	public static void setVisible(boolean welcome, boolean opponent, boolean own, boolean conection, boolean celebration, boolean gameOver) {
 		windowWelcome.frameWelcome.setVisible(welcome);
 		windowOpponent.frameOpponent.setVisible(opponent);
