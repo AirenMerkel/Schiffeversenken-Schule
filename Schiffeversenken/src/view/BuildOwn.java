@@ -43,10 +43,11 @@ public class BuildOwn {
 		
 
 		
-		String[][] coordinates = {{"0","1","2","3","4","5","6","7","8","9"},
-								  {"a","b","c","d","e","f","g","h","i","j"}};
+		String[][] coordinates = {{"a","b","c","d","e","f","g","h","i","j"},	//for the coordinates
+								  {"0","1","2","3","4","5","6","7","8","9"}};
 
-		
+		//set the letters at the left side 
+		//and numbers to the top
 		textFieldX = new JTextField[10];
 		textFieldY = new JTextField[10];
 		
@@ -65,20 +66,22 @@ public class BuildOwn {
 			frameOwn.getContentPane().add(textFieldY[textField]);
 		}
 
-		
+		//build the field with buttons
 		buttonXY = new Button[10][10];
 		
 		for(int y = 0; y <= 9; y++) {
 			for(int x = 0; x <= 9; x++) {
-				String koordinatenString = coordinates[1][y].toUpperCase() + coordinates[0][x];
+				String koordinatenString = coordinates[0][x].toUpperCase() + coordinates[1][y];
 				buttonXY[y][x] = new Button(koordinatenString);
 				buttonXY[y][x].setBounds(40+((x)*30), 40+((y)*30), 30, 30);
 				frameOwn.getContentPane().add(buttonXY[y][x]);
-				ListenerOwn.setShip(buttonXY[y][x], koordinatenString, x, y);
+				
+				ListenerOwn.setShip(buttonXY[y][x], koordinatenString, x, y); // get Listener so that you can place a ship
 			}
 		}
 		
 		
+		//shows how many ships are there to place
 		numberShips = new TextField[4];
 		for(int countShip = 0; countShip <= 3; countShip++) {
 			numberShips[countShip] = new TextField();
@@ -88,6 +91,7 @@ public class BuildOwn {
 			frameOwn.getContentPane().add(numberShips[countShip]);
 		}
 		
+		//button to select the ships
 		ships = new Button[4];
 		for(int ship = 0; ship <= 3; ship++) {
 			ships[ship] = new Button(ship_name[ship]);
@@ -105,24 +109,13 @@ public class BuildOwn {
 		ListenerOwn.seachOpponent(seachOpponent);
 		frameOwn.getContentPane().add(seachOpponent);
 		
-		//Text Field ErrorHandling
+		//Text Field user information
 		errorHandling.setBounds(20, 420, 341, 22);
 		errorHandling.setEditable(false);
 		frameOwn.getContentPane().add(errorHandling);
 		errorHandling2.setBounds(20, 442, 341, 22);
 		errorHandling2.setEditable(false);
 		frameOwn.getContentPane().add(errorHandling2);
-
-
-//		Button button = new Button("New button");
-//		button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
-//		button.setBounds(467, 76, 60, 30);
-//		frameOwn.getContentPane().add(button);
-
 
 	}
 }

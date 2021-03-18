@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Button;
+import java.awt.TextField;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -12,7 +13,9 @@ public class Opponent {
 	private JTextField textFieldX[];
 	private JTextField textFieldY[];
 	public JFrame frameOpponent;
-	public static Button buttonXY[][];
+	public static Button buttonXY[][]; // [X][Y]
+	public static TextField infoBox = new TextField();
+	public static TextField infoBox2 = new TextField();
 	/**
 	 * Create the application.
 	 */
@@ -42,8 +45,8 @@ public class Opponent {
 			textFieldY[textField] = new JTextField();
 			textFieldX[textField].setBounds(10+((textField+1)*30), 10, 30, 30);
 			textFieldY[textField].setBounds(10, 10+((textField+1)*30), 30, 30);
-			textFieldX[textField].setText(coordinates[0][textField]);
-			textFieldY[textField].setText(coordinates[1][textField].toUpperCase());
+			textFieldX[textField].setText(coordinates[1][textField].toUpperCase());
+			textFieldY[textField].setText(coordinates[0][textField]);
 			textFieldX[textField].setHorizontalAlignment(JTextField.CENTER);
 			textFieldY[textField].setHorizontalAlignment(JTextField.CENTER);
 			textFieldX[textField].setEditable(false);
@@ -51,21 +54,27 @@ public class Opponent {
 			frameOpponent.getContentPane().add(textFieldX[textField]);
 			frameOpponent.getContentPane().add(textFieldY[textField]);
 		}
-
+		
+		//generate buttons
 		buttonXY = new Button[10][10];
 		
-		for(int y = 0; y <= 9; y++) {
-			for(int x = 0; x <= 9; x++) {
+		for(int x = 0; x <= 9; x++) {
+			for(int y = 0; y <= 9; y++) {
 				String coordinatString = coordinates[1][y].toUpperCase() + coordinates[0][x];
-				buttonXY[y][x] = new Button(coordinatString);
-				buttonXY[y][x].setBounds(40+((x)*30), 40+((y)*30), 30, 30);
-				frameOpponent.getContentPane().add(buttonXY[y][x]);
+				buttonXY[x][y] = new Button(coordinatString);
+				buttonXY[x][y].setBounds(40+((y)*30), 40+((x)*30), 30, 30);
+				frameOpponent.getContentPane().add(buttonXY[x][y]);
 				
 				
-				ListenerOpponent.getListner(buttonXY[y][x], ",[" + coordinates[1][y].toUpperCase() + "],[" + coordinates[0][x] + "]");
+				ListenerOpponent.getListner(buttonXY[x][y], ",[" + coordinates[1][y].toUpperCase() + "],[" + coordinates[0][x] + "]");// get the listener for each button
 			}
 		}
-		
+		infoBox.setBounds(20, 420, 341, 22);
+		infoBox.setEditable(false);
+		frameOpponent.getContentPane().add(infoBox);
+		infoBox2.setBounds(20, 442, 341, 22);
+		infoBox2.setEditable(false);
+		frameOpponent.getContentPane().add(infoBox2);
 	}
 	
 }

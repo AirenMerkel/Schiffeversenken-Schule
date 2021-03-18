@@ -11,7 +11,8 @@ public class ListenerOpponent {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(coordinates);
-				
+
+
 //Fire,[x1],[x2]
 				networkComunication.Comunication.setOutgoingMsg(messages.Messages.fire + coordinates);
 				networkComunication.Comunication.setSetMsg(true);
@@ -26,7 +27,10 @@ public class ListenerOpponent {
 	public static void lockButtons(boolean lock) {
 		for(int x = 0; x <= 9; x++) {
 			for(int y = 0; y <= 9; y++) {
-				view.Opponent.buttonXY[y][x].setEnabled(!lock);
+				Color buttonColor = view.Opponent.buttonXY[y][x].getBackground();
+				if(buttonColor != Color.red && buttonColor != Color.BLUE || lock) {
+					view.Opponent.buttonXY[y][x].setEnabled(!lock);
+				}
 			}
 		}
 	}

@@ -20,11 +20,7 @@ public class ListenerOwn {
 		case "mishit":
 			button.setBackground(Color.YELLOW);
 			break;
-		
-		case "notPressed":
-			button.setBackground(Color.BLUE);
-			break;
-			
+
 		case "ship":
 			button.setBackground(Color.LIGHT_GRAY);
 			break;
@@ -32,10 +28,20 @@ public class ListenerOwn {
 		case "selected":
 			button.setBackground(Color.PINK);
 			break;
+			
+		case "water":
+			button.setBackground(Color.BLUE);
+			break;
+			
+		case "destroyed":
+			button.setBackground(Color.red);
+			break;
+			
 		case "normal":
 			button.setBackground(Color.decode("#f0f0f0"));
 			break;
 		default:
+			System.out.println("does not exist");
 			break;
 		}
 	}
@@ -340,7 +346,7 @@ public class ListenerOwn {
 	}
 	
 
-	public static void getShipListner(Button button, int ship) {
+	public static void getShipListner(Button button, int ship) {//listener for the buttons 
 
 		button.addMouseListener(new MouseAdapter() { 
             public void mouseClicked(MouseEvent me) { 
@@ -357,7 +363,7 @@ public class ListenerOwn {
 	}
 	
 	
-	public static void lockButtons() {
+	public static void lockButtons() {	//set all buttons to disabled to lock the ships in place 
 		for(int x = 0; x <= 9; x++) {
 			for(int y = 0; y <= 9; y++) {
 				view.BuildOwn.buttonXY[y][x].setEnabled(false);

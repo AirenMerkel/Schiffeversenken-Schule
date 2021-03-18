@@ -17,6 +17,7 @@ public class IncomeConection extends Thread {
 	 * Launch the application.
 	 */
 	
+	
 	public static void Start() {
 		try {
 			IncomeConection window = new IncomeConection();
@@ -58,19 +59,19 @@ public class IncomeConection extends Thread {
 		
 		JButton btnAccept = new JButton("Akzeptieren");
 		btnAccept.setBounds(24, 126, 366, 46);
-		listner.ListenerIncomeConection.accept(btnAccept, frame, ipAdress, SVFound);
+		listner.ListenerIncomeConection.accept(btnAccept, frame, ipAdress, SVFound); // get listener
 		frame.getContentPane().add(btnAccept);
 		
 		JButton btnDeny = new JButton("Ablehnen");
 		btnDeny.setBounds(24, 183, 366, 46);
-		listner.ListenerIncomeConection.deny(btnDeny, frame);
+		listner.ListenerIncomeConection.deny(btnDeny, frame); // get listener
 		frame.getContentPane().add(btnDeny);
 		
 		svRequestText = new JTextField();
 		if(SVFound) {
-			svRequestText.setText("Suchanfrage");
-		}else{
 			svRequestText.setText("Bestätigung");
+		}else{
+			svRequestText.setText("Suchanfrage");
 		}
 		svRequestText.setEditable(false);
 		svRequestText.setColumns(10);

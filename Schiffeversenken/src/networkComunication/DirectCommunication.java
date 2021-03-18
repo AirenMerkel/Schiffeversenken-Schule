@@ -29,7 +29,7 @@ public class DirectCommunication {
 
 		view.Main.setVisible(false, true, true, false, false, false);
 		DirectCommunication communicationStart = new DirectCommunication();
-		if(Broadcast.isInfo()) {
+		if(!Broadcast.isInfo()) {
 			communicationStart.startDirectCommunicationClient();
 		}else{
 			communicationStart.startDirectCommunicationServer();
@@ -38,42 +38,44 @@ public class DirectCommunication {
 
 	public void startDirectCommunicationServer() { 
 		// Server Port aufbauen
-				networkComunication.Comunication.setAnswerTime(true);
-				ListenerOpponent.lockButtons(false);
+		networkComunication.Comunication.setAnswerTime(true);
+		ListenerOpponent.lockButtons(false);
+		
+		ServerSocket server = null;
+		try {
+			
+			server = new ServerSocket(port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("Wait for opponent" + server.getLocalPort());
+
+		while (true) {
+			// auf aktive clients warten
+			Socket client = null;
+			try {
+				client = server.accept();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+			if(client.getInetAddress().toString().contains(Broadcast.getConectIP())) {
+				System.out.println("client verbunden");
+
+				clients.add(client);
+
+				threadStarten(client);
+					
+
+				view.Opponent.infoBox2.setText("Du bist dran");
 				
-				ServerSocket server = null;
-				try {
-					
-					server = new ServerSocket(port);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				System.out.println("Wait for opponent" + server.getLocalPort());
-
-				while (true) {
-					// auf aktive clients warten
-					Socket client = null;
-					try {
-						client = server.accept();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-
-					if(client.getInetAddress().toString().contains(Broadcast.getConectIP())) {
-						System.out.println("client verbunden");
-	
-						clients.add(client);
-	
-						threadStarten(client);
-							
-						
-						break;
-					}
-				}
+				break;
+			}
+		}
 	}
 	
 	
@@ -97,39 +99,9 @@ public class DirectCommunication {
 		} catch (IOException ioe) {
 			System.out.println(ioe);
 		}
-		
-		/*
-		BufferedWriter clientBufferedWriter = null;
-		BufferedReader clientBufferedReader = null;		
 
-		
-		System.out.println("Weiter");
-		try {
-			// Out / Inputstream aufbauen
-			OutputStream clientOutputStream = clientConnection.getOutputStream();
-			OutputStreamWriter clientOutputStreamWriter = new OutputStreamWriter(clientOutputStream);
-			clientBufferedWriter = new BufferedWriter(clientOutputStreamWriter);
+		view.Opponent.infoBox2.setText("Der Gegener ist dran");
 
-			InputStream clientInputStream = clientConnection.getInputStream();
-			InputStreamReader clientInputStreamReader = new InputStreamReader(clientInputStream);
-			clientBufferedReader = new BufferedReader(clientInputStreamReader);
-
-			System.out.println("3");
-		} catch (IOException ioe) {
-			System.out.print("Aufbau der Streams");
-			System.out.println(ioe);
-
-		}
-		// Thread zum lesen öffnen
-		
-		InputClient Input = new InputClient(clientBufferedReader);
-		Thread threadRead = new Thread(Input);
-		threadRead.start();
-		
-		OutputClient Output = new OutputClient(clientBufferedWriter);
-		Thread threadWrite = new Thread(Output);
-		threadWrite.start();
-*/
 	}
 	
 	private void threadStarten(Socket client) {
